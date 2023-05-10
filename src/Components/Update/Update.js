@@ -6,7 +6,18 @@ const Update = () => {
   const [users, setusers] = useState(storedUser);
   const handleCreateUser = (event) => {
     event.preventDefault();
-    console.log(users);
+    fetch(`http://localhost:5000/users/${users._id}`, {
+      method: "PUT",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(users),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount > 0) {
+          alert("User is Updated");
+          event.target.reset("");
+        }
+      });
   };
   const handleBlurUser = (event) => {
     const field = event.target.name;
